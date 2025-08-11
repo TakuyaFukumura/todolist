@@ -15,6 +15,7 @@ import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
@@ -88,6 +89,7 @@ public class Todo {
     /**
      * 優先度列挙型
      */
+    @Getter
     public enum Priority {
         HIGH("高"), MEDIUM("中"), LOW("低");
 
@@ -97,14 +99,12 @@ public class Todo {
             this.displayName = displayName;
         }
 
-        public String getDisplayName() {
-            return displayName;
-        }
     }
 
     /**
      * タスク状態列挙型
      */
+    @Getter
     public enum Status {
         PENDING("未開始"), IN_PROGRESS("進行中"), COMPLETED("完了");
 
@@ -114,9 +114,6 @@ public class Todo {
             this.displayName = displayName;
         }
 
-        public String getDisplayName() {
-            return displayName;
-        }
     }
 
     @PrePersist
