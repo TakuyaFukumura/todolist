@@ -6,7 +6,7 @@ DELETE FROM users;
 INSERT INTO users (username, password, roles, enabled) VALUES
 ('user', '$2a$10$zebSn69zBwNGIkBu5WByxuU5DLl4mGtqad8rZ7mZ1co15OYMunNgK', 'USER', true);
 INSERT INTO users (username, password, roles, enabled) VALUES
-('admin', '$2a$10$zebSn69zBwNGIkBu5WByxuU5DLl4mGtqad8rZ7mZ1co15OYMunNgK', 'ADMIN,USER', true);
+('admin', '$2a$10$7nL7aTBxLpU0qdbr1BK/hOGKz7.gMUfJseBZgxZ5hpglYhsxewlC2', 'ADMIN,USER', true);
 
 DELETE FROM todo;
 -- Sample todos for user (user_id=1)
