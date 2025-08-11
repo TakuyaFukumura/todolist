@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.example</groupId>
-    <artifactId>myproject</artifactId>
+    <artifactId>todolist</artifactId>
     <version>1.0.0</version>
 
     <parent>
@@ -89,7 +89,7 @@
     </dependencies>
 
     <build>
-        <finalName>myproject</finalName>
+        <finalName>todolist</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
