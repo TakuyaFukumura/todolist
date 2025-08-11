@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Index</title>
+    <title>ToDoList アプリケーション</title>
     <!-- 共通CSSフラグメント -->
     <th:block th:replace="fragments/common-css :: commonCss"></th:block>
 </head>
@@ -15,15 +15,44 @@
     <main class="flex-grow-1 py-5">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-md-6 col-lg-4">
+                <div class="col-md-8 col-lg-6">
                     <div class="card shadow">
                         <div class="card-body text-center">
                             <h1 class="card-title h3 mb-4 text-primary">
-                                <i class="bi bi-house-door-fill me-2"></i>Index
+                                <i class="bi bi-list-check me-2"></i>ToDoList アプリケーション
                             </h1>
                             <div class="alert alert-info border-start border-4 border-info">
                                 <i class="bi bi-info-circle-fill me-2"></i>
-                                <span th:text="${message}"></span>
+                                <span>タスク管理を効率的に行うためのアプリケーションです</span>
+                            </div>
+                            
+                            <div class="d-grid gap-2 col-6 mx-auto">
+                                <a href="/todos" class="btn btn-primary btn-lg">
+                                    <i class="bi bi-list-check me-2"></i>ToDoリストを表示
+                                </a>
+                                <a href="/todos/new" class="btn btn-outline-primary">
+                                    <i class="bi bi-plus-lg me-2"></i>新しいタスクを作成
+                                </a>
+                            </div>
+                            
+                            <div class="mt-4">
+                                <h6 class="text-muted mb-3">主な機能</h6>
+                                <div class="row text-start">
+                                    <div class="col-sm-6">
+                                        <ul class="list-unstyled">
+                                            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>タスクの作成・編集・削除</li>
+                                            <li class="mb-2"><i class="bi bi-calendar-date text-info me-2"></i>期限設定機能</li>
+                                            <li class="mb-2"><i class="bi bi-exclamation-triangle text-warning me-2"></i>優先度設定（高・中・低）</li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <ul class="list-unstyled">
+                                            <li class="mb-2"><i class="bi bi-flag text-primary me-2"></i>状態管理（未開始・進行中・完了）</li>
+                                            <li class="mb-2"><i class="bi bi-sort-down text-secondary me-2"></i>並び替え機能</li>
+                                            <li class="mb-2"><i class="bi bi-funnel text-secondary me-2"></i>フィルタリング機能</li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
