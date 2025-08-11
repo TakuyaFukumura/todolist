@@ -91,14 +91,15 @@ public class Todo {
      */
     @Getter
     public enum Priority {
-        HIGH("高"), MEDIUM("中"), LOW("低");
+        HIGH("高"),
+        MEDIUM("中"),
+        LOW("低");
 
         private final String displayName;
 
         Priority(String displayName) {
             this.displayName = displayName;
         }
-
     }
 
     /**
@@ -106,14 +107,15 @@ public class Todo {
      */
     @Getter
     public enum Status {
-        PENDING("未開始"), IN_PROGRESS("進行中"), COMPLETED("完了");
+        PENDING("未開始"),
+        IN_PROGRESS("進行中"),
+        COMPLETED("完了");
 
         private final String displayName;
 
         Status(String displayName) {
             this.displayName = displayName;
         }
-
     }
 
     @PrePersist
