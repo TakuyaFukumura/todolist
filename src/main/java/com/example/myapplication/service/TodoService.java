@@ -129,16 +129,16 @@ public class TodoService {
         long overdueTodos = todoRepository.findOverdueTodos(user, LocalDate.now(), Sort.unsorted()).size();
         long dueTodayTodos = todoRepository.findTodosForToday(user, LocalDate.now(), Sort.unsorted()).size();
 
-        return new TodoStats(totalTodos, completedTodos, pendingTodos, inProgressTodos, 
-                            highPriorityTodos, overdueTodos, dueTodayTodos);
+        return new TodoStats(totalTodos, completedTodos, pendingTodos, inProgressTodos,
+                highPriorityTodos, overdueTodos, dueTodayTodos);
     }
 
     /**
      * ソート条件を作成
      */
     private Sort createSort(String sortBy, String sortDirection) {
-        Sort.Direction direction = "desc".equalsIgnoreCase(sortDirection) ? 
-            Sort.Direction.DESC : Sort.Direction.ASC;
+        Sort.Direction direction = "desc".equalsIgnoreCase(sortDirection) ?
+                Sort.Direction.DESC : Sort.Direction.ASC;
 
         // デフォルトのソート条件を設定
         if (sortBy == null || sortBy.isEmpty()) {
@@ -172,9 +172,9 @@ public class TodoService {
         private final long overdueTodos;
         private final long dueTodayTodos;
 
-        public TodoStats(long totalTodos, long completedTodos, long pendingTodos, 
-                        long inProgressTodos, long highPriorityTodos, 
-                        long overdueTodos, long dueTodayTodos) {
+        public TodoStats(long totalTodos, long completedTodos, long pendingTodos,
+                         long inProgressTodos, long highPriorityTodos,
+                         long overdueTodos, long dueTodayTodos) {
             this.totalTodos = totalTodos;
             this.completedTodos = completedTodos;
             this.pendingTodos = pendingTodos;
@@ -184,14 +184,34 @@ public class TodoService {
             this.dueTodayTodos = dueTodayTodos;
         }
 
-        public long getTotalTodos() { return totalTodos; }
-        public long getCompletedTodos() { return completedTodos; }
-        public long getPendingTodos() { return pendingTodos; }
-        public long getInProgressTodos() { return inProgressTodos; }
-        public long getHighPriorityTodos() { return highPriorityTodos; }
-        public long getOverdueTodos() { return overdueTodos; }
-        public long getDueTodayTodos() { return dueTodayTodos; }
-        
+        public long getTotalTodos() {
+            return totalTodos;
+        }
+
+        public long getCompletedTodos() {
+            return completedTodos;
+        }
+
+        public long getPendingTodos() {
+            return pendingTodos;
+        }
+
+        public long getInProgressTodos() {
+            return inProgressTodos;
+        }
+
+        public long getHighPriorityTodos() {
+            return highPriorityTodos;
+        }
+
+        public long getOverdueTodos() {
+            return overdueTodos;
+        }
+
+        public long getDueTodayTodos() {
+            return dueTodayTodos;
+        }
+
         public double getCompletionRate() {
             return totalTodos > 0 ? (double) completedTodos / totalTodos * 100 : 0;
         }

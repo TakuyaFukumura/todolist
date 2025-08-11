@@ -20,12 +20,12 @@ class TodoServiceSpec extends Specification {
         given: "新しいTodoエンティティ"
         def user = new User(id: 1L, username: "testuser", password: "password", roles: "USER")
         def todo = new Todo(
-            title: "テストタスク",
-            description: "テスト用の説明",
-            dueDate: LocalDate.now().plusDays(1),
-            priority: Todo.Priority.HIGH,
-            status: Todo.Status.PENDING,
-            user: user
+                title: "テストタスク",
+                description: "テスト用の説明",
+                dueDate: LocalDate.now().plusDays(1),
+                priority: Todo.Priority.HIGH,
+                status: Todo.Status.PENDING,
+                user: user
         )
 
         when: "Todoを作成"
@@ -41,10 +41,10 @@ class TodoServiceSpec extends Specification {
         given: "既存のTodo"
         def user = new User(id: 1L, username: "testuser", password: "password", roles: "USER")
         def todo = new Todo(
-            id: 1L,
-            title: "テストタスク",
-            status: Todo.Status.PENDING,
-            user: user
+                id: 1L,
+                title: "テストタスク",
+                status: Todo.Status.PENDING,
+                user: user
         )
 
         when: "Todoの状態をトグル"
@@ -53,7 +53,7 @@ class TodoServiceSpec extends Specification {
         then: "リポジトリのfindByIdが1回呼び出される"
         1 * todoRepository.findById(1L) >> Optional.of(todo)
         and: "リポジトリのsaveが1回呼び出される"
-        1 * todoRepository.save(_) >> { Todo t -> 
+        1 * todoRepository.save(_) >> { Todo t ->
             assert t.status == Todo.Status.COMPLETED
             return t
         }
@@ -86,7 +86,7 @@ class TodoServiceSpec extends Specification {
         1 * todoRepository.countByUserAndPriority(user, Todo.Priority.HIGH) >> 2L
         1 * todoRepository.findOverdueTodos(user, _, _) >> []
         1 * todoRepository.findTodosForToday(user, _, _) >> []
-        
+
         and: "統計情報が正しく返される"
         stats.totalTodos == 10L
         stats.completedTodos == 6L

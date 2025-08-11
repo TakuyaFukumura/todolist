@@ -10,7 +10,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -101,10 +107,10 @@ public class TodoController {
      * Todo編集フォーム
      */
     @GetMapping("/{id}/edit")
-    public String editTodo(@PathVariable Long id, 
-                          @AuthenticationPrincipal UserDetails userDetails,
-                          Model model,
-                          RedirectAttributes redirectAttributes) {
+    public String editTodo(@PathVariable Long id,
+                           @AuthenticationPrincipal UserDetails userDetails,
+                           Model model,
+                           RedirectAttributes redirectAttributes) {
 
         User user = userService.findByUsername(userDetails.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -132,9 +138,9 @@ public class TodoController {
      */
     @PostMapping
     public String createTodo(@ModelAttribute Todo todo,
-                           BindingResult bindingResult,
-                           @AuthenticationPrincipal UserDetails userDetails,
-                           RedirectAttributes redirectAttributes) {
+                             BindingResult bindingResult,
+                             @AuthenticationPrincipal UserDetails userDetails,
+                             RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
             return "todos/form";
@@ -145,7 +151,7 @@ public class TodoController {
 
         todo.setUser(user);
         todoService.createTodo(todo);
-        
+
         redirectAttributes.addFlashAttribute("success", "新しいタスクを作成しました。");
         return "redirect:/todos";
     }
@@ -155,10 +161,10 @@ public class TodoController {
      */
     @PostMapping("/{id}")
     public String updateTodo(@PathVariable Long id,
-                           @ModelAttribute Todo todo,
-                           BindingResult bindingResult,
-                           @AuthenticationPrincipal UserDetails userDetails,
-                           RedirectAttributes redirectAttributes) {
+                             @ModelAttribute Todo todo,
+                             BindingResult bindingResult,
+                             @AuthenticationPrincipal UserDetails userDetails,
+                             RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
             return "todos/form";
@@ -185,7 +191,7 @@ public class TodoController {
         todo.setCreatedAt(existingTodo.getCreatedAt());
 
         todoService.updateTodo(todo);
-        
+
         redirectAttributes.addFlashAttribute("success", "タスクを更新しました。");
         return "redirect:/todos";
     }
@@ -195,8 +201,8 @@ public class TodoController {
      */
     @PostMapping("/{id}/delete")
     public String deleteTodo(@PathVariable Long id,
-                           @AuthenticationPrincipal UserDetails userDetails,
-                           RedirectAttributes redirectAttributes) {
+                             @AuthenticationPrincipal UserDetails userDetails,
+                             RedirectAttributes redirectAttributes) {
 
         User user = userService.findByUsername(userDetails.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -224,7 +230,7 @@ public class TodoController {
     @PostMapping("/{id}/toggle")
     @ResponseBody
     public String toggleTodo(@PathVariable Long id,
-                           @AuthenticationPrincipal UserDetails userDetails) {
+                             @AuthenticationPrincipal UserDetails userDetails) {
 
         User user = userService.findByUsername(userDetails.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
