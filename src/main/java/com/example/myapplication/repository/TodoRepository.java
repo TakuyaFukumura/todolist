@@ -1,5 +1,7 @@
 package com.example.myapplication.repository;
 
+import com.example.myapplication.entity.Priority;
+import com.example.myapplication.entity.Status;
 import com.example.myapplication.entity.Todo;
 import com.example.myapplication.entity.User;
 import org.springframework.data.domain.Sort;
@@ -30,12 +32,12 @@ public interface TodoRepository extends JpaRepository<Todo, Long> {
     /**
      * 指定したユーザーの指定した状態のTodoを取得
      */
-    List<Todo> findByUserAndStatus(User user, Todo.Status status, Sort sort);
+    List<Todo> findByUserAndStatus(User user, Status status, Sort sort);
 
     /**
      * 指定したユーザーの指定した優先度のTodoを取得
      */
-    List<Todo> findByUserAndPriority(User user, Todo.Priority priority, Sort sort);
+    List<Todo> findByUserAndPriority(User user, Priority priority, Sort sort);
 
     /**
      * 指定したユーザーの期限切れTodoを取得
@@ -52,12 +54,12 @@ public interface TodoRepository extends JpaRepository<Todo, Long> {
     /**
      * 指定したユーザーの完了済みタスク数を取得
      */
-    long countByUserAndStatus(User user, Todo.Status status);
+    long countByUserAndStatus(User user, Status status);
 
     /**
      * 指定したユーザーの優先度別タスク数を取得
      */
-    long countByUserAndPriority(User user, Todo.Priority priority);
+    long countByUserAndPriority(User user, Priority priority);
 
     /**
      * 指定したユーザーの総タスク数を取得

@@ -1,5 +1,7 @@
 package com.example.myapplication.controller;
 
+import com.example.myapplication.entity.Priority;
+import com.example.myapplication.entity.Status;
 import com.example.myapplication.entity.Todo;
 import com.example.myapplication.entity.User;
 import com.example.myapplication.service.TodoService;
@@ -53,19 +55,19 @@ public class TodoController {
         // フィルター処理
         switch (filter != null ? filter : "all") {
             case "pending":
-                todos = todoService.getTodosByStatus(user, Todo.Status.PENDING, sortBy, sortDirection);
+                todos = todoService.getTodosByStatus(user, Status.PENDING, sortBy, sortDirection);
                 filterDisplay = "未開始";
                 break;
             case "in_progress":
-                todos = todoService.getTodosByStatus(user, Todo.Status.IN_PROGRESS, sortBy, sortDirection);
+                todos = todoService.getTodosByStatus(user, Status.IN_PROGRESS, sortBy, sortDirection);
                 filterDisplay = "進行中";
                 break;
             case "completed":
-                todos = todoService.getTodosByStatus(user, Todo.Status.COMPLETED, sortBy, sortDirection);
+                todos = todoService.getTodosByStatus(user, Status.COMPLETED, sortBy, sortDirection);
                 filterDisplay = "完了";
                 break;
             case "high_priority":
-                todos = todoService.getTodosByPriority(user, Todo.Priority.HIGH, sortBy, sortDirection);
+                todos = todoService.getTodosByPriority(user, Priority.HIGH, sortBy, sortDirection);
                 filterDisplay = "高優先度";
                 break;
             case "overdue":
@@ -99,7 +101,7 @@ public class TodoController {
     @GetMapping("/new")
     public String newTodo(Model model) {
         model.addAttribute("todo", new Todo());
-        model.addAttribute("priorities", Todo.Priority.values());
+        model.addAttribute("priorities", Priority.values());
         return "todos/form";
     }
 
@@ -128,8 +130,8 @@ public class TodoController {
         }
 
         model.addAttribute("todo", todo);
-        model.addAttribute("priorities", Todo.Priority.values());
-        model.addAttribute("statuses", Todo.Status.values());
+        model.addAttribute("priorities", Priority.values());
+        model.addAttribute("statuses", Status.values());
         return "todos/form";
     }
 

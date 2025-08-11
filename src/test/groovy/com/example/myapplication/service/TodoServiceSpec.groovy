@@ -1,5 +1,7 @@
 package com.example.myapplication.service
 
+import com.example.myapplication.entity.Priority
+import com.example.myapplication.entity.Status
 import com.example.myapplication.entity.Todo
 import com.example.myapplication.entity.User
 import com.example.myapplication.repository.TodoRepository
@@ -23,8 +25,8 @@ class TodoServiceSpec extends Specification {
                 title: "テストタスク",
                 description: "テスト用の説明",
                 dueDate: LocalDate.now().plusDays(1),
-                priority: Todo.Priority.HIGH,
-                status: Todo.Status.PENDING,
+                priority: Priority.HIGH,
+                status: Status.PENDING,
                 user: user
         )
 
@@ -43,7 +45,7 @@ class TodoServiceSpec extends Specification {
         def todo = new Todo(
                 id: 1L,
                 title: "テストタスク",
-                status: Todo.Status.PENDING,
+                status: Status.PENDING,
                 user: user
         )
 
@@ -54,7 +56,7 @@ class TodoServiceSpec extends Specification {
         1 * todoRepository.findById(1L) >> Optional.of(todo)
         and: "リポジトリのsaveが1回呼び出される"
         1 * todoRepository.save(_) >> { Todo t ->
-            assert t.status == Todo.Status.COMPLETED
+            assert t.status == Status.COMPLETED
             return t
         }
         and: "結果が返される"
@@ -80,10 +82,10 @@ class TodoServiceSpec extends Specification {
 
         then: "各統計メソッドが適切に呼び出される"
         1 * todoRepository.countByUser(user) >> 10L
-        1 * todoRepository.countByUserAndStatus(user, Todo.Status.COMPLETED) >> 6L
-        1 * todoRepository.countByUserAndStatus(user, Todo.Status.PENDING) >> 3L
-        1 * todoRepository.countByUserAndStatus(user, Todo.Status.IN_PROGRESS) >> 1L
-        1 * todoRepository.countByUserAndPriority(user, Todo.Priority.HIGH) >> 2L
+        1 * todoRepository.countByUserAndStatus(user, Status.COMPLETED) >> 6L
+        1 * todoRepository.countByUserAndStatus(user, Status.PENDING) >> 3L
+        1 * todoRepository.countByUserAndStatus(user, Status.IN_PROGRESS) >> 1L
+        1 * todoRepository.countByUserAndPriority(user, Priority.HIGH) >> 2L
         1 * todoRepository.findOverdueTodos(user, _, _) >> []
         1 * todoRepository.findTodosForToday(user, _, _) >> []
 

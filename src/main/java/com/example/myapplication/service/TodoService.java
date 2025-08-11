@@ -1,5 +1,7 @@
 package com.example.myapplication.service;
 
+import com.example.myapplication.entity.Priority;
+import com.example.myapplication.entity.Status;
 import com.example.myapplication.entity.Todo;
 import com.example.myapplication.entity.User;
 import com.example.myapplication.repository.TodoRepository;
@@ -75,10 +77,10 @@ public class TodoService {
         Optional<Todo> todoOpt = todoRepository.findById(id);
         if (todoOpt.isPresent()) {
             Todo todo = todoOpt.get();
-            if (todo.getStatus() == Todo.Status.COMPLETED) {
-                todo.setStatus(Todo.Status.PENDING);
+            if (todo.getStatus() == Status.COMPLETED) {
+                todo.setStatus(Status.PENDING);
             } else {
-                todo.setStatus(Todo.Status.COMPLETED);
+                todo.setStatus(Status.COMPLETED);
             }
             return todoRepository.save(todo);
         }
@@ -88,7 +90,7 @@ public class TodoService {
     /**
      * 指定したユーザーの状態別Todo取得
      */
-    public List<Todo> getTodosByStatus(User user, Todo.Status status, String sortBy, String sortDirection) {
+    public List<Todo> getTodosByStatus(User user, Status status, String sortBy, String sortDirection) {
         Sort sort = createSort(sortBy, sortDirection);
         return todoRepository.findByUserAndStatus(user, status, sort);
     }
@@ -96,7 +98,7 @@ public class TodoService {
     /**
      * 指定したユーザーの優先度別Todo取得
      */
-    public List<Todo> getTodosByPriority(User user, Todo.Priority priority, String sortBy, String sortDirection) {
+    public List<Todo> getTodosByPriority(User user, Priority priority, String sortBy, String sortDirection) {
         Sort sort = createSort(sortBy, sortDirection);
         return todoRepository.findByUserAndPriority(user, priority, sort);
     }
@@ -122,10 +124,10 @@ public class TodoService {
      */
     public TodoStats getTodoStats(User user) {
         long totalTodos = todoRepository.countByUser(user);
-        long completedTodos = todoRepository.countByUserAndStatus(user, Todo.Status.COMPLETED);
-        long pendingTodos = todoRepository.countByUserAndStatus(user, Todo.Status.PENDING);
-        long inProgressTodos = todoRepository.countByUserAndStatus(user, Todo.Status.IN_PROGRESS);
-        long highPriorityTodos = todoRepository.countByUserAndPriority(user, Todo.Priority.HIGH);
+        long completedTodos = todoRepository.countByUserAndStatus(user, Status.COMPLETED);
+        long pendingTodos = todoRepository.countByUserAndStatus(user, Status.PENDING);
+        long inProgressTodos = todoRepository.countByUserAndStatus(user, Status.IN_PROGRESS);
+        long highPriorityTodos = todoRepository.countByUserAndPriority(user, Priority.HIGH);
         long overdueTodos = todoRepository.findOverdueTodos(user, LocalDate.now(), Sort.unsorted()).size();
         long dueTodayTodos = todoRepository.findTodosForToday(user, LocalDate.now(), Sort.unsorted()).size();
 

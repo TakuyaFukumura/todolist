@@ -15,7 +15,6 @@ import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
@@ -85,38 +84,6 @@ public class Todo {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
-    /**
-     * 優先度列挙型
-     */
-    @Getter
-    public enum Priority {
-        HIGH("高"),
-        MEDIUM("中"),
-        LOW("低");
-
-        private final String displayName;
-
-        Priority(String displayName) {
-            this.displayName = displayName;
-        }
-    }
-
-    /**
-     * タスク状態列挙型
-     */
-    @Getter
-    public enum Status {
-        PENDING("未開始"),
-        IN_PROGRESS("進行中"),
-        COMPLETED("完了");
-
-        private final String displayName;
-
-        Status(String displayName) {
-            this.displayName = displayName;
-        }
-    }
 
     @PrePersist
     protected void onCreate() {
