@@ -1,5 +1,7 @@
 package com.example.myapplication.entity;
 
+import com.example.myapplication.enums.Priority;
+import com.example.myapplication.enums.Status;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

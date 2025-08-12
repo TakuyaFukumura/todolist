@@ -1,7 +1,7 @@
 package com.example.myapplication.controller;
 
-import com.example.myapplication.entity.Priority;
-import com.example.myapplication.entity.Status;
+import com.example.myapplication.enums.Priority;
+import com.example.myapplication.enums.Status;
 import com.example.myapplication.entity.Todo;
 import com.example.myapplication.entity.User;
 import com.example.myapplication.service.TodoService;

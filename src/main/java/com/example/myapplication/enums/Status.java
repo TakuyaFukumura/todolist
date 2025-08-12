@@ -1,4 +1,4 @@
-package com.example.myapplication.entity;
+package com.example.myapplication.enums;
 
 import lombok.Getter;
 
