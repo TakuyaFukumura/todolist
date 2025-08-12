@@ -9,6 +9,7 @@ import com.example.myapplication.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -35,6 +36,11 @@ public class TodoController {
     private final TodoService todoService;
     private final UserService userService;
 
+    private User getCurrentUser(UserDetails userDetails) {
+        return userService.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
+
     /**
      * Todo一覧表示
      */
@@ -46,8 +52,7 @@ public class TodoController {
             @RequestParam(name = "filter", required = false) String filter,
             Model model) {
 
-        User user = userService.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User user = getCurrentUser(userDetails);
 
         List<Todo> todos;
         String filterDisplay = "すべて";
@@ -114,8 +119,7 @@ public class TodoController {
                            Model model,
                            RedirectAttributes redirectAttributes) {
 
-        User user = userService.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User user = getCurrentUser(userDetails);
 
         Optional<Todo> todoOpt = todoService.getTodoById(id);
         if (todoOpt.isEmpty()) {
@@ -148,8 +152,7 @@ public class TodoController {
             return "todos/form";
         }
 
-        User user = userService.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User user = getCurrentUser(userDetails);
 
         todo.setUser(user);
         todoService.createTodo(todo);
@@ -172,8 +175,7 @@ public class TodoController {
             return "todos/form";
         }
 
-        User user = userService.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User user = getCurrentUser(userDetails);
 
         Optional<Todo> existingTodoOpt = todoService.getTodoById(id);
         if (existingTodoOpt.isEmpty()) {
@@ -206,8 +208,7 @@ public class TodoController {
                              @AuthenticationPrincipal UserDetails userDetails,
                              RedirectAttributes redirectAttributes) {
 
-        User user = userService.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User user = getCurrentUser(userDetails);
 
         Optional<Todo> todoOpt = todoService.getTodoById(id);
         if (todoOpt.isEmpty()) {
@@ -234,8 +235,7 @@ public class TodoController {
     public String toggleTodo(@PathVariable Long id,
                              @AuthenticationPrincipal UserDetails userDetails) {
 
-        User user = userService.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User user = getCurrentUser(userDetails);
 
         Optional<Todo> todoOpt = todoService.getTodoById(id);
         if (todoOpt.isEmpty()) {
