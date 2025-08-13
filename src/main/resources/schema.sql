@@ -12,3 +12,17 @@ CREATE TABLE IF NOT EXISTS users (
     enabled BOOLEAN NOT NULL DEFAULT TRUE,
     PRIMARY KEY (id)
 );
+
+CREATE TABLE IF NOT EXISTS todo (
+    id BIGINT AUTO_INCREMENT,
+    title VARCHAR(255) NOT NULL,
+    description VARCHAR(1000),
+    due_date DATE,
+    priority VARCHAR(20) NOT NULL DEFAULT 'MEDIUM',
+    status VARCHAR(20) NOT NULL DEFAULT 'PENDING',
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL,
+    user_id BIGINT NOT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT fk_todo_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+);
