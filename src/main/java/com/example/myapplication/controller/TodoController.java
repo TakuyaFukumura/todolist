@@ -33,6 +33,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TodoController {
 
+    private static final String SUCCESS = "success";
+    private static final String ERROR = "error";
+    private static final String REDIRECT_TODOS = "redirect:/todos";
+    private static final String TODOS_FORM = "todos/form";
+
     private final TodoService todoService;
     private final UserService userService;
 
@@ -107,7 +112,7 @@ public class TodoController {
     public String newTodo(Model model) {
         model.addAttribute("todo", new Todo());
         model.addAttribute("priorities", Priority.values());
-        return "todos/form";
+        return TODOS_FORM;
     }
 
     /**
@@ -123,20 +128,20 @@ public class TodoController {
 
         Optional<Todo> todoOpt = todoService.getTodoById(id);
         if (todoOpt.isEmpty()) {
-            redirectAttributes.addFlashAttribute("error", "指定されたタスクが見つかりません。");
-            return "redirect:/todos";
+            redirectAttributes.addFlashAttribute(ERROR, "指定されたタスクが見つかりません。");
+            return REDIRECT_TODOS;
         }
 
         Todo todo = todoOpt.get();
         if (!todo.getUser().getId().equals(user.getId())) {
-            redirectAttributes.addFlashAttribute("error", "このタスクを編集する権限がありません。");
-            return "redirect:/todos";
+            redirectAttributes.addFlashAttribute(ERROR, "このタスクを編集する権限がありません。");
+            return REDIRECT_TODOS;
         }
 
         model.addAttribute("todo", todo);
         model.addAttribute("priorities", Priority.values());
         model.addAttribute("statuses", Status.values());
-        return "todos/form";
+        return TODOS_FORM;
     }
 
     /**
@@ -147,9 +152,8 @@ public class TodoController {
                              BindingResult bindingResult,
                              @AuthenticationPrincipal UserDetails userDetails,
                              RedirectAttributes redirectAttributes) {
-
         if (bindingResult.hasErrors()) {
-            return "todos/form";
+            return TODOS_FORM;
         }
 
         User user = getCurrentUser(userDetails);
@@ -157,8 +161,8 @@ public class TodoController {
         todo.setUser(user);
         todoService.createTodo(todo);
 
-        redirectAttributes.addFlashAttribute("success", "新しいタスクを作成しました。");
-        return "redirect:/todos";
+        redirectAttributes.addFlashAttribute(SUCCESS, "新しいタスクを作成しました。");
+        return REDIRECT_TODOS;
     }
 
     /**
@@ -170,23 +174,22 @@ public class TodoController {
                              BindingResult bindingResult,
                              @AuthenticationPrincipal UserDetails userDetails,
                              RedirectAttributes redirectAttributes) {
-
         if (bindingResult.hasErrors()) {
-            return "todos/form";
+            return TODOS_FORM;
         }
 
         User user = getCurrentUser(userDetails);
 
         Optional<Todo> existingTodoOpt = todoService.getTodoById(id);
         if (existingTodoOpt.isEmpty()) {
-            redirectAttributes.addFlashAttribute("error", "指定されたタスクが見つかりません。");
-            return "redirect:/todos";
+            redirectAttributes.addFlashAttribute(ERROR, "指定されたタスクが見つかりません。");
+            return REDIRECT_TODOS;
         }
 
         Todo existingTodo = existingTodoOpt.get();
         if (!existingTodo.getUser().getId().equals(user.getId())) {
-            redirectAttributes.addFlashAttribute("error", "このタスクを更新する権限がありません。");
-            return "redirect:/todos";
+            redirectAttributes.addFlashAttribute(ERROR, "このタスクを更新する権限がありません。");
+            return REDIRECT_TODOS;
         }
 
         // 既存のTodoの情報を保持
@@ -196,8 +199,8 @@ public class TodoController {
 
         todoService.updateTodo(todo);
 
-        redirectAttributes.addFlashAttribute("success", "タスクを更新しました。");
-        return "redirect:/todos";
+        redirectAttributes.addFlashAttribute(SUCCESS, "タスクを更新しました。");
+        return REDIRECT_TODOS;
     }
 
     /**
@@ -212,19 +215,19 @@ public class TodoController {
 
         Optional<Todo> todoOpt = todoService.getTodoById(id);
         if (todoOpt.isEmpty()) {
-            redirectAttributes.addFlashAttribute("error", "指定されたタスクが見つかりません。");
-            return "redirect:/todos";
+            redirectAttributes.addFlashAttribute(ERROR, "指定されたタスクが見つかりません。");
+            return REDIRECT_TODOS;
         }
 
         Todo todo = todoOpt.get();
         if (!todo.getUser().getId().equals(user.getId())) {
-            redirectAttributes.addFlashAttribute("error", "このタスクを削除する権限がありません。");
-            return "redirect:/todos";
+            redirectAttributes.addFlashAttribute(ERROR, "このタスクを削除する権限がありません。");
+            return REDIRECT_TODOS;
         }
 
         todoService.deleteTodo(id);
-        redirectAttributes.addFlashAttribute("success", "タスクを削除しました。");
-        return "redirect:/todos";
+        redirectAttributes.addFlashAttribute(SUCCESS, "タスクを削除しました。");
+        return REDIRECT_TODOS;
     }
 
     /**
@@ -239,19 +242,19 @@ public class TodoController {
 
         Optional<Todo> todoOpt = todoService.getTodoById(id);
         if (todoOpt.isEmpty()) {
-            return "error";
+            return ERROR;
         }
 
         Todo todo = todoOpt.get();
         if (!todo.getUser().getId().equals(user.getId())) {
-            return "error";
+            return ERROR;
         }
 
         try {
             todoService.toggleTodoStatus(id);
-            return "success";
+            return SUCCESS;
         } catch (Exception e) {
-            return "error";
+            return ERROR;
         }
     }
 }
