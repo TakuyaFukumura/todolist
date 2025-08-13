@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * データベースベースのユーザー認証サービス
@@ -41,5 +42,12 @@ public class UserService implements UserDetailsService {
                 .authorities(authorities)
                 .disabled(!user.getEnabled())
                 .build();
+    }
+
+    /**
+     * ユーザー名でユーザーエンティティを取得
+     */
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 }
