@@ -1,6 +1,6 @@
 # --- ビルド用ステージ ---
 ## MavenとJDKが入った公式イメージを使用（Java 21, Alpineベース）
-FROM maven:3-eclipse-temurin-25-alpine AS build
+FROM maven:3-eclipse-temurin-26-alpine AS build
 
 ## 作業ディレクトリを/appに設定
 WORKDIR /app
