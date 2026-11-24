@@ -9,7 +9,7 @@ WORKDIR /app
 COPY . .
 
 ## テストをスキップしてMavenでパッケージング（JARファイルを生成）
-RUN mvn clean package -DskipTests
+RUN mvn clean package -DskipTests -Dmaven.compiler.proc=full
 
 # --- 実行用ステージ ---
 ## 実行用の軽量イメージ
